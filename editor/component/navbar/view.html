@@ -1,0 +1,26 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <span class="navbar-brand">
+                {{alt.application}}
+            </span>
+        </div>
+        <div class="navbar-nav navbar-right">
+            <span class="btn btn-primary navbar-btn" 
+            data-toggle="tooltip" data-placement="bottom" title="{{x.title}}" 
+            ng-click="goto(x.url)" ng-repeat="x in menus">
+
+                <span class="glyphicon glyphicon-{{x.icon}}"></span>
+
+            </span>
+            
+            <span class="btn btn-danger navbar-btn" 
+            data-toggle="tooltip" data-placement="bottom" title="Keluar" 
+            ng-click="logout()">
+
+                <span class="glyphicon glyphicon-off"></span>
+
+            </span>
+        </div>
+    </div>
+</nav>

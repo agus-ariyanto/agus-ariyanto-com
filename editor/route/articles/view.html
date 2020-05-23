@@ -1,0 +1,63 @@
+<div alt-component="sidebar" data-scope="sidebar"></div>
+
+<h3 class="text-center">Articles</h3>
+<div class="separator"> </div>
+<div class="row">
+    <div class="col-md-8">
+        <form class="form" ng-submit="search()">
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="text" class="form-control" ng-model="search_text" placeholder="Search for...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+
+        </form>
+        <div class="separator"></div>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Topic</th>
+                        <th>State</th>
+                        <th>Preview</th>
+                        <th class="text-right">
+                            <button type="button" class="btn btn-success" ng-click="newArticle()">
+                                <span class="glyphicon glyphicon-file"></span> New Article
+                            </button>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="a in articles">
+                        <td>{{a.title}}</td>
+                        <td>{{a.topic_title}}</td>
+                        <td>
+                            <button type="button" class="btn btn-{{idState(a.state_id)}}" ng-click="changeState(a)">
+                                {{a.state_title}}
+                            </button>
+                        </td>
+                        <td ng-bind-html="a.preview"></td>
+                        <td class="text-right">
+                            <button type="button" class="btn btn-success" ng-click="editArticle(x)">
+                                <span class="glyphicon glyphicon-pencil"></span> Edit Article
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" class="text-center">
+                            pagination
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row" alt-component="article" data-scope="article"> </div>
+    </div>
+</div>

@@ -1,0 +1,45 @@
+<style media="screen">
+    body{
+        padding-left:90px;
+    }
+    .sidebar{
+        left:0;
+        top:0;
+        width:70px;
+        height:100vh;
+        position:fixed;
+        padding-top:20px;
+        background-color:#333;
+        color:rgb(99, 127, 250);
+    }
+    .span-nav-item{
+        display:block;
+        width:70px;
+        height:70px;
+        font-size:23px;
+        cursor:pointer;
+        padding:4px;
+    }
+    .span-nav-item.active{
+        background-color:#000;
+        color:white;
+        cursor:none;
+    }
+    .span-nav-item:hover{
+        background-color:#222;
+    }
+    .span-nav-item > span{
+        display:block;
+        padding:4px;
+    }
+    .span-nav-title{
+        font-size:9px;
+    }
+</style>
+<div class="sidebar">
+    <span class="span-nav-item {{x.active ? 'active':''}} text-center" ng-click="goTo(x.url)" ng-repeat="x in menus">
+        <span class="glyphicon glyphicon-{{x.icon}}"></span>
+        <span class="span-nav-title text-center">{{x.title}}</span>
+    </span>
+
+</div>

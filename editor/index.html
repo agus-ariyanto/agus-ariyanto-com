@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="Alt">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title></title>
+
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/simditor.css" />
+    <link rel="stylesheet" href="../assets/css/font-awesome.css" />
+
+    <link rel="stylesheet" href="../assets/codemirror/lib/codemirror.css">
+    <link rel="stylesheet" href="../assets/codemirror/theme/monokai.css">
+
+      <!-- other libs -->
+
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/bootstrap.min.js"></script>
+    <script src="../assets/js/date-id-ID.min.js"></script>
+    <script src="../assets/js/simditor-all.js"></script>
+    <script src="../assets/codemirror/lib/codemirror.js"></script>
+    <script src="../assets/codemirror/mode/xml/xml.js"></script>
+    <script src="../assets/codemirror/mode/javascript/javascript.js"></script>
+    <script src="../assets/codemirror/mode/css/css.js"></script>
+    <script src="../assets/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+    <script src="../assets/codemirror/addon/edit/matchbrackets.js"></script>
+
+    <style media="screen">
+        body{
+            padding-top: 20px;
+        }
+        .separator{
+            width:100%;
+            height:20px;
+            display: block;
+            clear: both;
+        }
+        .pointer{
+            cursor:pointer;
+        }
+        .not-allowed{
+            cursor:not-allowed;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid" ng-view></div>
+
+    <!-- utama -->
+    <script src="../assets/js/angular.min.js"></script>
+    <script src="../assets/js/angular-route.min.js"></script>
+    <script src="../assets/js/angular-sanitize.min.js"></script>
+    <script src="../assets/js/angular-jwt.min.js"></script>
+    <script src="../assets/js/store2.min.js"></script>
+    <script src="../assets/js/ng-img-crop.js"></script>
+    <script src="../assets/js/angular-editor.js"></script>
+    <script src="../assets/js/ui-codemirror.min.js"></script>
+
+    <!-- tambahan modul -->
+
+
+
+
+    <!-- alt-angularjs -->
+    <script type="text/javascript" src="../assets/js/alt.js"></script>
+    <script type="text/javascript" src="../assets/js/alt-api.js"></script>
+    <script type="text/javascript" src="../assets/js/alt-route.js"></script>
+    <!-- bootstrapping -->
+
+    <script type="text/javascript" src="system/auth.js"></script>
+    <script type="text/javascript" src="system/config.js"></script>
+
+    <!-- terakhir sendiri -->
+    <script type="text/javascript" src="../assets/js/require.min.js"></script>
+  </body>
+</html>

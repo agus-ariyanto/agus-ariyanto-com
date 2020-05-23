@@ -1,0 +1,80 @@
+<div class="row">
+  <div class="col-md-4 col-sm-4 login-form-wrapper">
+
+    <!-- form untuk melakukan login -->
+    <form role="form" class="login-form" ng-submit="signin()" ng-show="step==1">
+      <h2>Login</h2>
+      <p class="text-info">Silahkan anda masukkan username dan password</p>
+      <br>
+      <div class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon">
+            <span class="glyphicon glyphicon-user"></span>
+          </span>
+          <input type="text" class="form-control" ng-model="data.email" placeholder="email" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon" ng-click="showpwd=!showpwd">
+            <span class="glyphicon glyphicon-eye-{{showpwd ? 'close':'open'}}"></span>
+          </span>
+          <input type="{{showpwd ? 'text':'password'}}" class="form-control" ng-model="data.password" placeholder="Password" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="row">
+          <div class="col-md-6 col-sm-6">
+            <button type="submit" class="btn btn-primary btn-block" >Submit</button>
+          </div>
+          <div class="col-md-6 col-sm-6">
+            <button type="button" class="btn btn-default btn-block" ng-click="step=2">Lupa Password ?</button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <!-- form untuk lupa password -->
+
+    <form role="form" class="login-form" ng-submit="lupa()" ng-show="step==2">
+      <h2>Lupa Password ?</h2>
+      <p class="text-info">Silahkan anda masukkan email, kami akan mengirimkan lewat email</p>
+      <br>
+      <div class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon">
+            <span class="glyphicon glyphicon-user"></span>
+          </span>
+          <input type="email" class="form-control" ng-model="data.nm" placeholder="Email" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="row">
+          <div class="col-md-6 col-sm-6">
+            <button type="submit" class="btn btn-primary btn-block" >Submit</button>
+          </div>
+          <div class="col-md-6 col-sm-6">
+            <button type="button" class="btn btn-default btn-block" ng-click="step=1">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </form>
+
+  </div>
+  <div class="col-md-8 col-sm-8">
+    <img src="assets/img/bg.jpeg" class="img-login">
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+</div>

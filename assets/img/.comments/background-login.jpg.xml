@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<comment version="3.0">
+  <caption>Teamwork</caption>
+  <note>Above view of business team sitting around table and working</note>
+  <place/>
+  <categories>
+    <category value="business"/>
+    <category value="people"/>
+    <category value="businesspeople"/>
+    <category value="person"/>
+    <category value="female"/>
+    <category value="woman"/>
+    <category value="man"/>
+    <category value="male"/>
+    <category value="businessman"/>
+    <category value="businesswoman"/>
+    <category value="team"/>
+    <category value="teamwork"/>
+    <category value="workgroup"/>
+    <category value="company"/>
+    <category value="above"/>
+    <category value="angle"/>
+    <category value="meeting"/>
+    <category value="work"/>
+    <category value="worker"/>
+    <category value="white"/>
+    <category value="collar"/>
+    <category value="Caucasian"/>
+    <category value="manager"/>
+    <category value="employee"/>
+    <category value="professional"/>
+    <category value="corporate"/>
+    <category value="executive"/>
+    <category value="successful"/>
+    <category value="confident"/>
+    <category value="consulting"/>
+    <category value="discussing"/>
+    <category value="interaction"/>
+    <category value="conversation"/>
+    <category value="speaking"/>
+    <category value="communicating"/>
+    <category value="young"/>
+    <category value="adults"/>
+    <category value="associates"/>
+    <category value="expertise"/>
+    <category value="career"/>
+    <category value="planning"/>
+    <category value="brainstorming"/>
+    <category value="strategy"/>
+    <category value="cooperation"/>
+    <category value="collaboration"/>
+    <category value="partner"/>
+    <category value="paper"/>
+    <category value="paperwork"/>
+    <category value="gathered"/>
+    <category value="workplace"/>
+  </categories>
+</comment>
