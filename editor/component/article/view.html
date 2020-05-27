@@ -5,57 +5,169 @@
         top:15px;
         border-radius:50%;
         font-size:12px;
+    }
+    .relative-width{
+        position:relative;
+    }
+    .cropArea {
+        background: #E4E4E4;
+        margin: auto;
+        overflow: hidden;
+        width:100%;
+        Height:450px;
 
     }
+    .iframe-container{
+          position: relative;
+          width: 100%;
+          padding-bottom: 56.25%;
+          height: 0;
+    }
+    .iframe-container iframe{
+        position: absolute;
+        top:0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
 </style>
-
-<div class="col-md-12">
-    <button type="button" class="btn btn-danger btn-round-badge">
-        <span class="glyphicon glyphicon-pencil"></span>
-    </button>
-
-    <h3>Title</h3>
-    <p>Topics</p>
-    <p>12 May 2020</p>
-    <p></p>
-    <div simditor ng-model='xxx'></div>
-
-    <div class="separator"></div>
-    <div ui-codemirror="editorOptions" ng-model="htmltext">
-
-
-
+<div class="row">
+    <div class="col-md-1 col-sm-1">
+        <h3 class="glyphicon glyphicon-menu-left" ng-click="back()"></h3>
+    </div>
+    <div class="col-md-10 col-sm-10">
+        <h3 class="text-center">Article Editor</h3>
     </div>
 </div>
 <div class="separator"></div>
-<div ng-repeat="c in contents">
-    <div class="col-md-12" ng-if="c.content_type==1" ng-bind-html="c.content-text">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    </div>
-    <div class="col-md-12 code-content" ng-if="c.content_type==2" ng-bind-html="c.content-text">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    </div>
-    <div class="col-md-12" ng-if="c.content_type==3">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    </div>
-    <div class="col-md-12" ng-if="c.content_type==4">
-    </div>
+
+<div ng-show="editArticle==1">
+    <form class="form" ng-submit="saveArticle()">
+        <div class="form-group">
+            <label for="">Title</label>
+
+            <input type="text" class="form-control" ng-model="article.title">
+        </div>
+        <div class="form-group">
+            <label for="">Nav</label>
+            <select class="form-control" ng-model="article.nav_id" ng-options="n.id as n.title for n in navs" ng-change="changeNav()">
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="">Topics</label>
+            <select class="form-control" ng-model="article.topic_id" ng-options="a.id as a.title for a in topics">
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="">Preview</label>
+            <div simditor ng-model='article.preview'></div>
+        </div>
+        <div class="form-group text-right">
+            <button type="button" class="btn btn-default" ng-click="back(article)">Cancel</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>
+<div ng-show="editArticle==0">
+    <button type="button" class="btn btn-danger btn-round-badge" ng-click="editArticle=1">
+        <span class="glyphicon glyphicon-pencil"></span>
+    </button>
+    <h3>{{article.title}}</h3>
+    <img src="{{cropImage.result}}" alt="" style="width:200px;height:auto">
+    <p>{{article.topic_name}}</p>
+    <p><small><em>{{article.human_date}}</em></small></p>
+    <div ng-bind-html="article.preview"></div>
     <div class="separator"></div>
-</div>
-<div class="col-md-12 text-right">
-    <span class="not-allowed">Add Content</span>
-    <div class="btn-group">
-      <button type="button" class="btn btn-default">
-          <span class="glyphicon glyphicon-text-size"></span>
-      </button>
-      <button type="button" class="btn btn-default">
-          <span class="glyphicon glyphicon-console"></span>
-      </button>
-      <button type="button" class="btn btn-default">
-          <span class="glyphicon glyphicon-picture"></span>
-      </button>
-      <button type="button" class="btn btn-default">
-          <span class="glyphicon glyphicon-film"></span>
-      </button>
+    <div ng-show="editContent==0">
+        <div class="text-right">
+            <span class="not-allowed">Add Content</span>
+            <div class="btn-group">
+                <button type="button" class="btn btn-default" ng-click="showContentEditor(1)">
+                    <span class="glyphicon glyphicon-text-size"></span>
+                </button>
+                <button type="button" class="btn btn-default" ng-click="showContentEditor(2)">
+                    <span class="glyphicon glyphicon-console"></span>
+                </button>
+                <button type="button" class="btn btn-default" ng-click="showContentEditor(3)">
+                    <span class="glyphicon glyphicon-picture"></span>
+                </button>
+                <button type="button" class="btn btn-default" ng-click="showContentEditor(4)">
+                    <span class="glyphicon glyphicon-film"></span>
+                </button>
+            </div>
+        </div>
+
+        <div class="separator"></div>
+        <button type="button" class="btn btn-default" ng-click="showContentEditor(1)">
+            <span class="glyphicon glyphicon-text-size"></span>
+        </button>
+        <div ng-repeat="c in content">
+            <div ng-bind-html="c.content_text" ng-if="c.content_type==1"></div>
+            <div ui-codemirror="readonlyOptions(c.content_mime)" ng-model="content.content_text" ng-if="c.content_type==2"></div>
+            <img src="{{c.content_text}}" class="img-responsive" ng-if="c.content_type==3">
+            <div class="container-iframe">
+                <iframe src="http://www.youtube.com/embed/{{videoId(c.content_text)}}"
+                width="560" height="315" frameborder="0"  allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+
     </div>
+
+
+    <div simditor ng-model="content.content_text" ng-show="editContent==1"></div>
+
+    <div ng-show="editContent==2">
+        <div class="form-group">
+            <label for="">Code</label>
+            <select class="form-control" ng-model="content.content_mime" ng-options="z.mime as z.name for z in cmcodes" ng-click="changeOptions()"></select>
+        </div>
+        <div ui-codemirror="editorOptions" ng-model="content.content_text"></div>
+    </div>
+
+    <div ng-if="editContent==3" class="cropArea">
+        <div class="row">
+            <div class="col-md-4">
+                <select class="form-control" ng-model="cropOptions.type" ng-options="p as p for p in cropOptions.types"></select>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+
+
+        <ui-cropper
+            image="cropImage.source"
+            result-image="$parent.cropImage.result"
+            result-blob="$parent.cropOptions.resBlob"
+            url-blob="$parent.cropOptions.urlBlob"
+            area-type="{{cropOptions.type}}"
+            area-min-size="cropOptions.selMinSize"
+            area-init-size="cropOptions.selInitSize"
+            result-image-format="{{cropOptions.resImgFormat}}"
+            result-image-quality="cropOptions.resImgQuality"
+            result-image-size="cropOptions.resImgSize"
+            allow-crop-resize-on-corners="false"
+            disable-keyboard-access="false"
+            init-max-area="true"
+            change-on-fly="false"
+            >
+        </ui-cropper>
+    </div>
+    <div ng-show="editContent==4">
+        <label for="">Video Url <span class="text-info"><small>*Only Youtube</small></span></label>
+        <input type="text" class="form-control" ng-model="content.content_text">
+    </div>
+
+
+    <div class="separator"></div>
+
+    <form class="form" ng-submit="saveContent()" ng-show="editContent>0">
+        <div class="form-group text-right">
+            <button type="button" class="btn btn-default" ng-click="editContent=0">Cancel</button>
+            <button type="submit" class="btn btn-primary" ng-click="saveContent">Submit</button>
+        </div>
+    </form>
+
 </div>
+
+<input type="file" style="display:none" id="upload-image">

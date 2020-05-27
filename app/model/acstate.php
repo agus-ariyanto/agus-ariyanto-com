@@ -6,15 +6,15 @@ class AcState extends Model{
     );
     protected $firstdata=array(
         array(
-            'id'=>'0',
+            'id'=>'1',
             'title'=>'Draft'
         ),
         array(
-            'id'=>'1',
+            'id'=>'2',
             'title'=>'Published'
         ),
         array(
-            'id'=>'2',
+            'id'=>'3',
             'title'=>'Hidden'
         )
     );

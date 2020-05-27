@@ -14,7 +14,7 @@ alt.secure = {};
 /* module disini */
 alt.module('ngSanitize');
 alt.module('ui.codemirror');
-alt.module('ngImgCrop');
+alt.module('uiCropper');
 alt.module('simditor');
 // set window title
 document.title = alt.title;

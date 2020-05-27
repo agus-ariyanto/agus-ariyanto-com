@@ -7,7 +7,14 @@ class Api extends Base{
         $this->mode=JSON;
 	}
 
-    function parseId(){
+    protected function isLogin(){
+        //return true;
+        $auth=new Auth(NONE);
+        $this->auth=$auth->check();
+        return $this->auth!==0;
+    }
+
+    protected function parseId(){
         if(!empty($this->query[1])&&is_numeric($this->query[1]))
             return $this->query[1];
 
@@ -15,6 +22,11 @@ class Api extends Base{
         if(!empty($id)&&is_numeric($id)) return $id;
         return '';
     }
+
+    /*
+    request dengan standar restfull
+        ?u=api/model/id
+    */
 
      function index(){
          // if($this->isLogin()===false)
@@ -67,13 +79,13 @@ class Api extends Base{
         }
     }
 
-     function select(){
+     protected function select(){
          $db=new DbJoin;
          $this->data( $db->select($this->model) );
      }
 
 
-     function save(){
+     protected function save(){
          $model=$this->model;
          $this->addModel($model);
          if(!empty($this->id)) $this->params->set('id',$this->id);
@@ -81,7 +93,7 @@ class Api extends Base{
          $this->data($this->$model->select($id));
      }
 
-     function remove(){
+     protected function remove(){
          if(empty($this->id)) return $this->notfound();
          $model=$this->model;
          $this->addModel($model);
@@ -92,12 +104,47 @@ class Api extends Base{
      }
 
 
-     protected function isLogin(){
-         //return true;
-         $auth=new Auth(NONE);
-         $this->auth=$auth->check();
-         return $this->auth!==0;
+     /*
+         custom request untuk post imageuri ke file
+         return alamat uri relatif file tsb
+         mis
+            ?u=api/upload/data/png
+            maka file tersebut disimpan dalam upload/data/ dengan extensi png
+     */
+
+     function upload(){
+         $dir=empty($this->query[0]) ? 'image' : $this->query[0];
+         $ext=empty($this->query[1]) ? '.jpg' : '.'.$this->query[1];
+         $file=uniqid().$ext;
+         $img=str_replace('data:image/jpeg;base64,','',$this->params->key('image'));
+         $data=base64_decode($img);
+         file_put_contents(ROOT_DIR.DS.'upload'.DS.$dir.DS.$file,$data);
+         $this->data('upload/'.$dir.'/'.$file);
      }
+
+     function videoid(){
+         /*baru youtube saja*/
+         $url=$this->params->key('url');
+         // http://youtu.be/dQw4w9WgXcQ
+         // http://www.youtube.com/embed/dQw4w9WgXcQ
+         // http://www.youtube.com/watch?v=dQw4w9WgXcQ
+         // http://www.youtube.com/?v=dQw4w9WgXcQ
+         // http://www.youtube.com/v/dQw4w9WgXcQ
+         // http://www.youtube.com/e/dQw4w9WgXcQ
+         // http://www.youtube.com/user/username#p/u/11/dQw4w9WgXcQ
+         // http://www.youtube.com/sandalsResorts#p/c/54B8C800269D7C1B/0/dQw4w9WgXcQ
+         // http://www.youtube.com/watch?feature=player_embedded&v=dQw4w9WgXcQ
+         // http://www.youtube.com/?feature=player_embedded&v=dQw4w9WgXcQ
+
+         // It also works on the youtube-nocookie.com URL with the same above options.
+         // It will also pull the ID from the URL in an embed code (both iframe and object tags)
+         preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $url, $match);
+         $youtube_id = $match[1];
+         $this->data($video_id);
+     }
+
+
+
 
 
 /*end controller*/
