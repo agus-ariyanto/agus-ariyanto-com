@@ -1,7 +1,7 @@
 define([ 'system/request' ], function(){
     return ['$scope', '$auth','$window','Request',
     function($scope, $auth,$window, Request){
-
+        $scope.modified=false;
         $scope.navs=[]
         Request.Get('nav').then(function(res){
             $scope.navs=res.data;
@@ -19,10 +19,16 @@ define([ 'system/request' ], function(){
         $scope.article={}
         $scope.editArticle=0;
         $scope.init=function(val){
+            $scope.modified=false;
             $scope.editContent=0;
-            $scope.article={};
-            if(val) {
+            $scope.article={
+                title:'',
+                preview:''
+            };
+            $scope.contents=[];
+            if(val){
                 $scope.article=val;
+                $scope.article.human_date=Date.parse($scope.article.created).toString('dd MMM yyyy');
                 $scope.changeNav();
                 $scope.editArticle=0;
                 $scope.getContents();
@@ -35,6 +41,10 @@ define([ 'system/request' ], function(){
                 $scope.article=res.data;
                 $scope.article.human_date=Date.parse($scope.article.created).toString('dd MMM yyyy');
                 $scope.editArticle=0;
+                return $scope.article;
+            })
+            .then( function(res){
+                $scope.modified=true;
             });
         }
         $scope.back=function(val){
@@ -55,13 +65,14 @@ define([ 'system/request' ], function(){
             }
             var a=['','text/html','text/javascript','image/jpeg','embed/video'];
             var mime=a[step];
-            $scope.content={
+            $scope.content=val||{
                 article_id:id,
                 content_mime:mime,
                 content_text:'',
                 content_type:step
             }
-            if(val) $scope.content=val;
+            $scope.editContent=step;
+
             /*
             step 1 : htnkedit
                  2 : code
@@ -72,23 +83,23 @@ define([ 'system/request' ], function(){
                 $('#upload-image').click();
                 return;
             }
-            $scope.editContent=step;
+
         }
 
         $scope.getContents=function(){
             var data={
                 article_id:{
                     equal:$scope.article.id
-                }
+                },
+                order:'id'
             }
             Request.Get('content',data)
             .then(function(res){
                 $scope.contents=res.data;
+                hljs.initHighlightingOnLoad();
+
             });
         }
-
-
-
 
         $scope.cmcodes=[
             {name: "C", mime: "text/x-csrc"},
@@ -106,20 +117,24 @@ define([ 'system/request' ], function(){
         $scope.editorOptions = {
     		lineWrapping : true,
     		lineNumbers: true,
-    		mode: 'xml',
+    		mode: 'text/javascript'
     	};
         $scope.readonlyOptions = function(optmode){
-            let v=$scope.editorOptions;
-            v.readOnly= 'nocursor';
-            v.mode= optmode;
-            return v;
+            return {
+                lineWrapping : true,
+        		lineNumbers: false,
+                readOnly: 'nocursor',
+                showLineNumber:false,
+                mode: optmode
+            }
         };
+
         $scope.changeOptions=function(){
             $scope.editorOptions.mode = $scope.content.content_mime;
         }
 
         var saveImage=function(){
-            Request.Post('upload',{image:$scope.$scope.cropImage.result})
+            Request.Post('upload',{image:$scope.cropImage.result})
             .then(function(res){
                 return res;
             })
@@ -131,15 +146,25 @@ define([ 'system/request' ], function(){
                 $scope.getContents();
                 $scope.editContent=0;
             });
-            return true;
+        }
+        $scope.video={url:''};
+
+        var saveVideoId=function(){
+            Request.Post('videoid',{url:$scope.video.url})
+            .then(function(res){
+                $scope.content.content_text=res.data;
+                $scope.content.content_mime='embed/youtube';
+                return Request.Post('content',$scope.content);
+            })
+            .then(function(res){
+                $scope.getContents();
+                $scope.editContent=0;
+            });
         }
         $scope.saveContent=function(){
             /*khusus untuk image*/
-            if($scope.content.content_type==3)
-                return saveImage();
-                
-            /*bukan image*/
-            $scope.content_text=$scope.cropImage.result;
+            if($scope.content.content_type==3) return saveImage();
+            if($scope.content.content_type==4) return saveVideoId();
             Request.Post('content',$scope.content)
             .then(function(res){
                 $scope.getContents();
@@ -179,11 +204,8 @@ define([ 'system/request' ], function(){
         angular.element(document.querySelector('#upload-image')).on('change', uploadOnChange);
 
         $scope.videoId=function(val){
-            return Request.Get('videoid',{url:val})
-            .then(
-                function(res){
-                    return res.data;
-            });
+            //return 'https://www.youtube.com/embed/'{{c.content_text}}
+            return 'https://www.youtube.com/embed/'+val;
         }
         /*end controller*/
         }];

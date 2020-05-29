@@ -16,6 +16,9 @@ alt.module('ngSanitize');
 alt.module('ui.codemirror');
 alt.module('uiCropper');
 alt.module('simditor');
+alt.module('hljs');
+alt.module('youtube-embed');
+
 // set window title
 document.title = alt.title;
 

@@ -5,7 +5,7 @@ class AcArticle extends Model{
         'profile_id'=>'INT',
         'nav_id'=>'INT',
         'topic_id'=>'INT',
-        'state_id'=>'INT DEFAULT 0',
+        'state_id'=>'INT DEFAULT 1',
         'title'=>'VARCHAR(128)',
         'preview'=>'TEXT',
         'created'=>'TIMESTAMP DEFAULT CURRENT_TIMESTAMP',

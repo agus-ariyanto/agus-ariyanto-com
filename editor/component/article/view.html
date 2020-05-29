@@ -5,6 +5,7 @@
         top:15px;
         border-radius:50%;
         font-size:12px;
+        z-index:11111;
     }
     .relative-width{
         position:relative;
@@ -74,7 +75,6 @@
         <span class="glyphicon glyphicon-pencil"></span>
     </button>
     <h3>{{article.title}}</h3>
-    <img src="{{cropImage.result}}" alt="" style="width:200px;height:auto">
     <p>{{article.topic_name}}</p>
     <p><small><em>{{article.human_date}}</em></small></p>
     <div ng-bind-html="article.preview"></div>
@@ -99,18 +99,26 @@
         </div>
 
         <div class="separator"></div>
-        <button type="button" class="btn btn-default" ng-click="showContentEditor(1)">
-            <span class="glyphicon glyphicon-text-size"></span>
-        </button>
-        <div ng-repeat="c in content">
-            <div ng-bind-html="c.content_text" ng-if="c.content_type==1"></div>
-            <div ui-codemirror="readonlyOptions(c.content_mime)" ng-model="content.content_text" ng-if="c.content_type==2"></div>
-            <img src="{{c.content_text}}" class="img-responsive" ng-if="c.content_type==3">
-            <div class="container-iframe">
-                <iframe src="http://www.youtube.com/embed/{{videoId(c.content_text)}}"
-                width="560" height="315" frameborder="0"  allowfullscreen>
-                </iframe>
+        <div class="relative-width" ng-repeat="c in contents">
+            <button type="button" class="btn btn-danger btn-round-badge" ng-click="showContentEditor(c.content_type,c)">
+                <span class="glyphicon glyphicon-pencil"></span>
+            </button>
+            <div class="separator"></div>
+            <div ng-if="c.content_type==1">
+                <div ng-bind-html="c.content_text" ></div>
             </div>
+            <div ng-if="c.content_type==2">
+                <div hljs
+                    hljs-no-escape hljs-source="c.content_text">
+                </div>
+            </div>
+            <div ng-if="c.content_type==3">
+                <img src="../{{c.content_text}}" class="img-responsive">
+            </div>
+            <div class="iframe-container" ng-if="c.content_type==4">
+                <youtube-video video-id="c.content_text"></youtube-video>
+            </div>
+            <hr>
         </div>
 
     </div>
@@ -126,36 +134,37 @@
         <div ui-codemirror="editorOptions" ng-model="content.content_text"></div>
     </div>
 
-    <div ng-if="editContent==3" class="cropArea">
+    <div ng-show="editContent==3">
         <div class="row">
             <div class="col-md-4">
                 <select class="form-control" ng-model="cropOptions.type" ng-options="p as p for p in cropOptions.types"></select>
             </div>
         </div>
         <div class="clearfix"></div>
-
-
-        <ui-cropper
-            image="cropImage.source"
-            result-image="$parent.cropImage.result"
-            result-blob="$parent.cropOptions.resBlob"
-            url-blob="$parent.cropOptions.urlBlob"
-            area-type="{{cropOptions.type}}"
-            area-min-size="cropOptions.selMinSize"
-            area-init-size="cropOptions.selInitSize"
-            result-image-format="{{cropOptions.resImgFormat}}"
-            result-image-quality="cropOptions.resImgQuality"
-            result-image-size="cropOptions.resImgSize"
-            allow-crop-resize-on-corners="false"
-            disable-keyboard-access="false"
-            init-max-area="true"
-            change-on-fly="false"
-            >
-        </ui-cropper>
+        <div class="cropArea">
+            <ui-cropper
+                image="cropImage.source"
+                result-image="cropImage.result"
+                result-blob="$parent.cropOptions.resBlob"
+                url-blob="$parent.cropOptions.urlBlob"
+                area-type="{{cropOptions.type}}"
+                area-min-size="cropOptions.selMinSize"
+                area-init-size="cropOptions.selInitSize"
+                result-image-format="{{cropOptions.resImgFormat}}"
+                result-image-quality="cropOptions.resImgQuality"
+                result-image-size="cropOptions.resImgSize"
+                allow-crop-resize-on-corners="false"
+                disable-keyboard-access="false"
+                init-max-area="true"
+                change-on-fly="false">
+            </ui-cropper>
+        </div>
     </div>
-    <div ng-show="editContent==4">
+
+
+    <div ng-if="editContent==4">
         <label for="">Video Url <span class="text-info"><small>*Only Youtube</small></span></label>
-        <input type="text" class="form-control" ng-model="content.content_text">
+        <input type="text" class="form-control" ng-model="video.url">
     </div>
 
 
@@ -164,7 +173,7 @@
     <form class="form" ng-submit="saveContent()" ng-show="editContent>0">
         <div class="form-group text-right">
             <button type="button" class="btn btn-default" ng-click="editContent=0">Cancel</button>
-            <button type="submit" class="btn btn-primary" ng-click="saveContent">Submit</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </div>
     </form>
 

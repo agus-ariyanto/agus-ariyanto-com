@@ -5,10 +5,10 @@
         <div ng-show="step==1">
             <h3 class="text-center">Articles</h3>
             <div class="separator"> </div>
-            <form class="form" ng-submit="search()">
+            <form class="form" ng-submit="init()">
                 <div class="form-group">
                     <div class="input-group">
-                        <input type="text" class="form-control" ng-model="search_text" placeholder="Search for...">
+                        <input type="text" class="form-control" ng-model="searchText" placeholder="Search for...">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button">
                                 <span class="glyphicon glyphicon-search"></span>
@@ -28,24 +28,25 @@
                             <th>Preview</th>
                             <th class="text-right">
                                 <button type="button" class="btn btn-success" ng-click="newArticle()">
-                                    <span class="glyphicon glyphicon-file"></span> New Article
+                                    <span class="glyphicon glyphicon-file"></span> New
                                 </button>
                             </th>
                         </tr>
                     </thead>
                     <tbody>
+                        localhost/agys/eed
                         <tr ng-repeat="a in articles">
                             <td>{{a.title}}</td>
                             <td>{{a.topic_title}}</td>
                             <td>
-                                <button type="button" class="btn btn-{{idState(a.state_id)}}" ng-click="changeState(a)">
+                                <button type="button" class="btn btn-{{idState(a.state_id)==1?'default':'success'}}" ng-click="changeState(a)">
                                     {{a.state_title}}
                                 </button>
                             </td>
                             <td ng-bind-html="a.preview"></td>
                             <td class="text-right">
-                                <button type="button" class="btn btn-success" ng-click="editArticle(a)">
-                                    <span class="glyphicon glyphicon-pencil"></span> Edit Article
+                                <button type="button" class="btn btn-primary" ng-click="editArticle(a)">
+                                    <span class="glyphicon glyphicon-pencil"></span> Edit
                                 </button>
                             </td>
                         </tr>

@@ -112,13 +112,17 @@ class Api extends Base{
             maka file tersebut disimpan dalam upload/data/ dengan extensi png
      */
 
+
+
+
      function upload(){
          $dir=empty($this->query[0]) ? 'image' : $this->query[0];
          $ext=empty($this->query[1]) ? '.jpg' : '.'.$this->query[1];
          $file=uniqid().$ext;
          $img=str_replace('data:image/jpeg;base64,','',$this->params->key('image'));
          $data=base64_decode($img);
-         file_put_contents(ROOT_DIR.DS.'upload'.DS.$dir.DS.$file,$data);
+         $root=dirname(ROOT_DIR);
+         file_put_contents($root.DS.'upload'.DS.$dir.DS.$file,$data);
          $this->data('upload/'.$dir.'/'.$file);
      }
 
@@ -140,7 +144,7 @@ class Api extends Base{
          // It will also pull the ID from the URL in an embed code (both iframe and object tags)
          preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $url, $match);
          $youtube_id = $match[1];
-         $this->data($video_id);
+         $this->data($youtube_id);
      }
 
 
