@@ -27,16 +27,30 @@ define([ 'system/request' ], function(){
                 $scope.articles=res.data;
             });
         }
-        $scope.init();
+
+        $scope.changeState=function(val,state){
+
+            state=state||1;
+            if(val.state_id==1) state=2;
+
+            Request.Post('article/'+val.id,{state_id:state}).then(function(res){
+                return Request.Get('article/'+val.id);
+            })
+            .then(function(res){
+                var i=$scope.articles.map(function(v){
+                    return v.id;
+                }).indexOf(val.id);
+                $scope.articles[i]=res.data;
+            });
+        }
 
         $scope.$watch('article.modified', function(val){
             if(val===true){
-                console.log('modified');
+
                 Request.Get('article/'+$scope.article.article.id)
                 .then(function(res){
                     if(res.data.id){
                         var i=$scope.articles.map(function(v){return v.id;}).indexOf(res.data.id);
-                        console.log(i);
                         if(i>-1) $scope.articles[i]=res.data;
                             else $scope.articles.unshift(res.data);
                     }
@@ -44,6 +58,7 @@ define([ 'system/request' ], function(){
             }
         });
 
+        $scope.init();
 
 
         /*end controller*/

@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-md-8">
         <div ng-show="step==1">
-            <h3 class="text-center">Articles</h3>
+            <h3 class="text-center">Commnets</h3>
             <div class="separator"> </div>
             <form class="form" ng-submit="init()">
                 <div class="form-group">
@@ -22,33 +22,29 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>Title</th>
-                            <th>Topic</th>
-                            <th>State</th>
-                            <th>Preview</th>
-                            <th class="text-right">
-                                <button type="button" class="btn btn-success" ng-click="newArticle()">
-                                    <span class="glyphicon glyphicon-file"></span> New
-                                </button>
-                            </th>
+                            <th>Email</th>
+                            <th>Article</th>
+                            <th>Type</th>
+                            <th>Comment</th>
+                            <th></th>
+
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="a in articles">
-                            <td>{{a.title}}</td>
-                            <td>{{a.topic_title}}</td>
-                            <td>
-                                <button type="button" class="btn btn-{{a.state_id==1?'success':'default'}}" ng-click="changeState(a)">
-                                    {{a.state_title}}
-                                </button>
-                            </td>
-                            <td ng-bind-html="a.preview"></td>
+                        <tr ng-repeat="a in comments">
+                            <td>{{a.email}}</td>
+                            <td>{{a.article_title}}</td>
+                            <td>{{getType(a.content_type)}}</td>
+                            <td ng-bind-html="a.content_text"></td>
                             <td class="text-right">
-                                <button type="button" class="btn btn-danger" ng-click="changeState(a,3)" ng-if="a.state_id!=3">
-                                    <span class="glyphicon glyphicon-remove"></span> Hide
+                                <button type="button" class="btn btn-primary" ng-click="editArticle(a)">
+                                    <span class="glyphicon glyphicon-pencil"></span> Delete
                                 </button>
                                 <button type="button" class="btn btn-primary" ng-click="editArticle(a)">
-                                    <span class="glyphicon glyphicon-pencil"></span> Edit
+                                    <span class="glyphicon glyphicon-pencil"></span> Reply
+                                </button>
+                                <button type="button" class="btn btn-primary" ng-click="editArticle(a)">
+                                    <span class="glyphicon glyphicon-pencil"></span> Thread
                                 </button>
                             </td>
                         </tr>
@@ -62,7 +58,7 @@
             </div>
 
         </div>
-        <div alt-component="article" data-scope="article" ng-show="step==2"></div>
+        <div alt-component="thread" data-scope="thread" ng-show="step==2"></div>
 
 
 

@@ -12,6 +12,10 @@ class AcState extends Model{
         array(
             'id'=>'2',
             'title'=>'Published'
+        ),
+        array(
+            'id'=>'3',
+            'title'=>'Hidden'
         )
     );
 }

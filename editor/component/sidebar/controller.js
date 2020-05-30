@@ -15,19 +15,19 @@ define([], function(){
          {
              title:'Topics',
              icon:'list-alt',
-             url:'navtopic',
+             url:'topics',
              active:false
          },
          {
              title:'Articles',
              icon:'file',
-             url:'article',
+             url:'articles',
              active:false
          },
          {
              title:'Comments',
              icon:'tasks',
-             url:'tugas',
+             url:'comments',
              active:false
          },
          {
@@ -40,7 +40,7 @@ define([], function(){
 //    $scope.profile=$auth.profile;
 
 
-    $scope.goto=function(val){
+    $scope.goTo=function(val){
         $window.location.href=alt.baseUrl+val;
     }
     $scope.active=0;
